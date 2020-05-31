@@ -34,7 +34,7 @@ function DeckList ({ decks, navigate}){
         <ScrollView style={styles.list_decks}>
         {Object.keys(decks).map((deck) =>
           <ListItem 
-            key = {decks[deck]} 
+            key = {decks[deck].title} 
             deck = {decks[deck]} 
             navigate = {navigate}
           />

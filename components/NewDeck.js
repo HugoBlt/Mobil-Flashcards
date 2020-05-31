@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { addDeck } from '../actions'
 import { saveDeckTitle } from '../utils/api'
 import { white, blue } from '../utils/colors'
+import { clearLocalNotification, setLocalNotification } from "../utils/helpers";
 
 class NewDeck extends Component {
   state = {
@@ -15,6 +16,8 @@ class NewDeck extends Component {
     const deckid = this.state.text
     const { dispatch } = this.props
     dispatch(addDeck(deckid))
+
+    clearLocalNotification().then(setLocalNotification)
 
     this.setState(() => ({
       text: '',

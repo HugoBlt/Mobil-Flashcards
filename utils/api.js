@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native'
 
-export const DECKS_STORAGE_KEY = 'Flashcard:decks'
+export const DECKS_STORAGE_KEY = 'FLASHCARD:decks'
 
 export function getDecks () {
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
@@ -26,11 +26,11 @@ export function saveQuestion ( {deckid, question, answer }) {
     })
 }
 
-export function saveScore ( {deckid, score }) {
+export function saveScore ( {deckid, score_percentage }) {
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((results) => {
       const data = JSON.parse(results)
-      data[deckid].score = score
+      data[deckid].score = score_percentage
       AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(data))
     })
 }
@@ -51,7 +51,6 @@ export function saveDeckTitle ({ deckid }) {
       title: deckid,
       questions: [],
       score: 0,
-      theme: null,
     }
     })
   )

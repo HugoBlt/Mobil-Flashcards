@@ -15,7 +15,6 @@ function decks (state = {}, action) {
           title: action.deckid,
           questions: [],
           score: 0,
-          theme: null,
         },
       }
     case REMOVE_DECK :

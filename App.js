@@ -1,4 +1,6 @@
-import React from 'react'
+import 'react-native-gesture-handler'
+
+import React, { useEffect } from 'react'
 import { View, StatusBar } from 'react-native'
 import { white, blue } from './utils/colors'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
@@ -9,9 +11,9 @@ import middleware from './middleware'
 import Constants from 'expo-constants'
 import NewDeck from './components/NewDeck'
 import DecksListContainer from './components/DecksList'
-import 'react-native-gesture-handler'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { setLocalNotification } from './utils/helpers'
 
 function HugoStatusBar ({backgroundColor, ...props}) {
   return (
@@ -41,6 +43,9 @@ function MyTabs() {
 }
 
 export default class App extends React.Component {
+  componentDidMount () {
+    setLocalNotification()
+  }
   render() {
     const store = createStore(reducer, middleware)
     return (

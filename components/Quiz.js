@@ -7,11 +7,13 @@ import { SubmitBtn } from './TextButton'
 import { white, blue, red, green } from '../utils/colors'
 import { addScore } from '../actions'
 import { saveScore } from '../utils/api'
+import { clearLocalNotification, setLocalNotification } from "../utils/helpers"
 
 class Quiz extends Component {
   state = {
     seeAnswer: false,
     score : 0,
+    score_percentage : 0,
     questionId : 0,
   }
   answer = () => {
@@ -31,15 +33,30 @@ class Quiz extends Component {
       seeAnswer: false,
     }))
   }
-  goBack = () => {
+  submmit = () => {
     const { navigate, dispatch, deck } = this.props
     const deckid = deck.title
     const score_percentage = this.state.score_percentage
 
     dispatch(addScore({ deckid, score_percentage }))
     saveScore({ deckid, score_percentage })
-    
+
+    clearLocalNotification().then(setLocalNotification)
+  }
+  goBack = () => {
+    const { navigate, deck } = this.props
+    this.submmit() 
     navigate('Deck', { deckid : deck.title})
+  }
+  startAgain = () => {
+    this.submmit() 
+
+    this.setState(() => ({ 
+      seeAnswer: false,
+      score : 0,
+      score_percentage : 0,
+      questionId : 0,
+    }))
   }
   render() {
     if (this.state.questionId === this.props.questions.length) {
@@ -50,7 +67,10 @@ class Quiz extends Component {
               <Text style = {{ fontSize: 25, color: blue }}>{`You answer correctly ${this.state.score} over ${this.props.questions.length}`}</Text>
               <Text style = {{ fontSize: 25, color: blue }}>{`Your score is ${this.state.score_percentage}%`}</Text>
             </View>
-            <SubmitBtn children = {'Go Back to Quiz'} onPress={this.goBack} styleBtn = {{backgroundColor : blue, margin : 10}}/>
+            <View style={styles.button}>
+              <SubmitBtn children = {'Go Back to Deck'} onPress={this.goBack} styleBtn = {{backgroundColor : blue, margin : 10}}/>
+              <SubmitBtn children = {'Restart Quiz'} onPress={this.startAgain} styleBtn = {{backgroundColor : green, margin : 10}}/>
+            </View>
           </View>
       )
     }
@@ -58,7 +78,7 @@ class Quiz extends Component {
     return (
       <View style={styles.container}>
         <View style = {styles.deckTitle}>
-          <QuestionHeader title = {this.props.deck.title}/>
+          <QuestionHeader title = {this.props.deck.title} remainingQuestion = {`${this.state.questionId + 1}/${this.props.questions.length}`}/>
         </View>
         <View>
           <View style={styles.question}>
@@ -88,7 +108,6 @@ const styles = StyleSheet.create({
     backgroundColor: white
   },
   button: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent : 'space-around',
   },
@@ -98,7 +117,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   question: {
-    flex: 1,
     flexDirection: 'row',
     padding : 10,
     marginTop : 30,

@@ -14,7 +14,7 @@ class NewDeck extends Component {
   }
   createDeck = () => {
     const deckid = this.state.text
-    const { dispatch } = this.props
+    const { dispatch, navigate } = this.props
     dispatch(addDeck(deckid))
 
     clearLocalNotification().then(setLocalNotification)
@@ -23,7 +23,7 @@ class NewDeck extends Component {
       text: '',
     }))
 
-    // go to add question to this deck
+    navigate('Deck', { deckid})
 
     saveDeckTitle({ deckid })
   }

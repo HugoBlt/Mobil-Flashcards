@@ -25,6 +25,7 @@ function ListItem ({ deck, navigate}){
 }
 
 function DeckList ({ decks, navigate}){
+  if (Object.keys(decks).length !== 0) {
   return (
       <View>
         <View style = {styles.deckTitle}>
@@ -41,7 +42,15 @@ function DeckList ({ decks, navigate}){
           )}
         </ScrollView>
       </View>
-  )
+    )}
+  else{
+    return (
+    <View style={styles.container}>
+    <View style={styles.score}>
+      <Text style = {{ fontSize: 25, color: blue }}>{'First of all, you need to add a Deck !'}</Text>
+    </View>
+  </View>
+  )}
 }
 
 const Stack = createStackNavigator()
@@ -117,6 +126,14 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  score: {
+    flex: 1,
+    padding : 10,
+    borderColor: blue,
+    borderWidth : 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TextInput } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Alert } from 'react-native'
 import QuestionHeader from './QuestionHeader'
 import { SubmitBtn } from './TextButton'
 import { receiveDecks, addQuestion } from '../actions'
@@ -41,9 +41,15 @@ class NewQuestion extends Component {
       saveQuestion({ deckid, question, answer })
       
     }else{
-      console.log('Please provide Question and Answer')
+      Alert.alert(
+        "Alert Title",
+        "Please provide Question and Answer",
+        [
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ],
+        { cancelable: false }
+      )
     }
-    
   }
   render() {
     const deck = this.props.deck

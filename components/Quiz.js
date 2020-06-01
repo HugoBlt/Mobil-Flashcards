@@ -59,8 +59,17 @@ class Quiz extends Component {
     }))
   }
   render() {
+    if (this.props.questions.length === 0) {
+      return (
+          <View style={styles.container}>
+            <View style={styles.score}>
+              <Text style = {{ fontSize: 25, color: blue }}>{'You need to add some Question to be able to take a Quiz'}</Text>
+              <SubmitBtn children = {'Go Back to Deck'} onPress={this.goBack} styleBtn = {{backgroundColor : blue, margin : 10}}/>
+            </View>
+          </View>
+      )
+    }
     if (this.state.questionId === this.props.questions.length) {
-      console.log(this.state)
       return (
           <View style={styles.container}>
             <View style={styles.score}>

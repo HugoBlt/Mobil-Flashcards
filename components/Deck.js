@@ -22,9 +22,11 @@ class Deck extends Component {
   delete = () => {
     const { dispatch, navigate, deck } = this.props
     const deckid = deck.title
-    console.log('ici', deckid)
-    dispatch(removeDeck(deckid))
+
+    console.log('ici', deck)
+    
     deleteDeck({ deckid })
+    dispatch(removeDeck(deckid))
     navigate('Deck List')
   }
   render() {

@@ -25,8 +25,8 @@ class Deck extends Component {
 
     console.log('ici', deck)
     
-    deleteDeck({ deckid })
-    dispatch(removeDeck(deckid))
+    deleteDeck({ deckid }).then(() => dispatch(removeDeck(deckid)))
+    
     navigate('Deck List')
   }
   render() {

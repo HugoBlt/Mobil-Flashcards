@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TextInput } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Alert } from 'react-native'
 import QuestionHeader from './QuestionHeader'
 import { SubmitBtn } from './TextButton'
 import { connect } from 'react-redux'
@@ -13,19 +13,33 @@ class NewDeck extends Component {
     text: '',
   }
   createDeck = () => {
-    const deckid = this.state.text
-    const { dispatch, navigate } = this.props
-    dispatch(addDeck(deckid))
 
-    clearLocalNotification().then(setLocalNotification)
 
-    this.setState(() => ({
-      text: '',
-    }))
 
-    navigate('Deck', { deckid})
+    if (this.state.text !== '') {
+      const deckid = this.state.text
+      const { dispatch, navigate } = this.props
 
-    saveDeckTitle({ deckid })
+      saveDeckTitle({ deckid })
+      dispatch(addDeck(deckid))
+      clearLocalNotification().then(setLocalNotification)
+  
+      this.setState(() => ({
+        text: '',
+      }))
+      navigate('Deck', { deckid})
+      
+      
+    }else{
+      Alert.alert(
+        "Alert Title",
+        "Please provide a name to your deck",
+        [
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ],
+        { cancelable: false }
+      )
+    }
   }
   render() {
     return (
